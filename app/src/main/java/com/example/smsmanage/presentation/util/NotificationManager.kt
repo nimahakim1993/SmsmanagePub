@@ -16,7 +16,7 @@ class NotificationManager(private val context: Context) {
 
      fun notifyMessage(message: String) {
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle("My Notification")
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

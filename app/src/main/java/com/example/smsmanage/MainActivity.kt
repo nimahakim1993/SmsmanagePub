@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var permissionManager: PermissionManager
     @Inject
     lateinit var notificationManager: NotificationManager
-//    @Inject
+    @Inject
     lateinit var mySmsReceiver: MySmsReceiver
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         requestAllPermission()
-        mySmsReceiver = MySmsReceiver()
         registerMyReceiver()
 
 
