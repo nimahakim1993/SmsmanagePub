@@ -3,4 +3,6 @@
     <string name="str_phone">phone number</string>
     <string name="str_message">message</string>
     <string name="str_send">send</string>
+    <string name="desc_sms_permission_denied">sms permission is not granted</string>
+    <string name="desc_notification_permission_denied">notification permission is not granted</string>
 </resources>
