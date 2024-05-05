@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import com.example.smsmanage.databinding.ActivityMainBinding
+import com.example.smsmanage.presentation.util.MessageBuilder
 import com.example.smsmanage.presentation.viewmodel.MainViewModel
 import com.example.smsmanage.presentation.viewmodel.MainViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var mainViewModelFactory: MainViewModelFactory
     private val mainViewModel: MainViewModel by viewModels { mainViewModelFactory }
+    @Inject
+    lateinit var messageBuilder: MessageBuilder
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -40,6 +43,8 @@ class MainActivity : AppCompatActivity() {
                 if (!checkSmsPermission())
                     requestSmsPermission()
                 else{
+                    if (!checkFields())
+                        return@setOnClickListener
                     val phone = binding.etPhone.text.toString()
                     val message = binding.etMessage.text.toString()
                     mainViewModel.sendMessage(phone, message)
@@ -48,6 +53,28 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun checkFields(): Boolean {
+        val phone = binding.etPhone.text.toString()
+        val message = binding.etMessage.text.toString()
+        if (phone.isEmpty()){
+            messageBuilder.showToastMessage("mobile number is empty!")
+            return false
+        }
+        if (phone.length < 11){
+            messageBuilder.showToastMessage("mobile number should be 11 digits!")
+            return false
+        }
+        if (!phone.startsWith("09")){
+            messageBuilder.showToastMessage("mobile number should start with 09!")
+            return false
+        }
+        if (message.isEmpty()){
+            messageBuilder.showToastMessage("message can't be empty")
+            return false
+        }
+        return true
     }
 
 
