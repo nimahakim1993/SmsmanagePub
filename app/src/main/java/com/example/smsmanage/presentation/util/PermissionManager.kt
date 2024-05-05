@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-
 class PermissionManager(private val context: Context) {
 
     fun checkSmsPermission(): Boolean {

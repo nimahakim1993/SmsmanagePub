@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        requestSmsPermission()
+        requestAllPermission()
         registerMyReceiver()
 
         binding.apply {
@@ -73,48 +73,6 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun checkFields(): Boolean {
-        val phone = binding.etPhone.text.toString()
-        val message = binding.etMessage.text.toString()
-        if (phone.isEmpty()){
-            messageBuilder.showToastMessage("mobile number is empty!")
-            return false
-        }
-        if (phone.length < 11){
-            messageBuilder.showToastMessage("mobile number should be 11 digits!")
-            return false
-        }
-        if (!phone.startsWith("09")){
-            messageBuilder.showToastMessage("mobile number should start with 09!")
-            return false
-        }
-        if (message.isEmpty()){
-            messageBuilder.showToastMessage("message can't be empty")
-            return false
-        }
-        return true
-    }
-
-
-    private fun checkSmsPermission(): Boolean {
-        val permission = Manifest.permission.SEND_SMS
-        val res = checkCallingOrSelfPermission(permission)
-        return res == PackageManager.PERMISSION_GRANTED
-    }
-    private fun requestSmsPermission() {
-        val permissionList = arrayListOf<String>()
-        permissionList.add(Manifest.permission.SEND_SMS)
-        permissionList.add(Manifest.permission.RECEIVE_SMS)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permissionList.add(Manifest.permission.POST_NOTIFICATIONS)
-        }
-
-        ActivityCompat.requestPermissions(
-            this,
-            permissionList.toTypedArray(),
-            REQUEST_SMS_PERMISSIONS_CODE
-        )
-    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -145,5 +103,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun requestAllPermission() {
+        val permissionList = arrayListOf<String>()
+        permissionList.add(Manifest.permission.SEND_SMS)
+        permissionList.add(Manifest.permission.RECEIVE_SMS)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissionList.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
+        ActivityCompat.requestPermissions(
+            this,
+            permissionList.toTypedArray(),
+            REQUEST_SMS_PERMISSIONS_CODE
+        )
     }
 }
