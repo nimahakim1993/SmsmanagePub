@@ -3,6 +3,7 @@ package com.example.smsmanage.presentation.di
 import android.content.Context
 import com.example.smsmanage.presentation.util.MessageBuilder
 import com.example.smsmanage.presentation.util.MessageValidator
+import com.example.smsmanage.presentation.util.NotificationManager
 import com.example.smsmanage.presentation.util.PermissionManager
 import dagger.Module
 import dagger.Provides
@@ -29,5 +30,10 @@ class UtilModule {
     @Provides
     fun providePermissionManager(@ApplicationContext context: Context): PermissionManager {
         return PermissionManager(context)
+    }
+    @Singleton
+    @Provides
+    fun provideNotificationManager(@ApplicationContext context: Context): NotificationManager {
+        return NotificationManager(context)
     }
 }

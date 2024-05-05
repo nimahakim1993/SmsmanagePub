@@ -9,7 +9,9 @@ class MainViewModel(private val app: Application): AndroidViewModel(app) {
     fun sendMessage(phone: String, message: String) {
         val smsManager: SmsManager = app.getSystemService(SmsManager::class.java)
         smsManager.sendTextMessage(phone, null, message, null, null)
+    }
 
+    fun receiveMessage(){
 
     }
 }

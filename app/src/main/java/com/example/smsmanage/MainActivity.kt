@@ -17,6 +17,7 @@ import com.example.smsmanage.data.receiver.MySmsReceiver
 import com.example.smsmanage.databinding.ActivityMainBinding
 import com.example.smsmanage.presentation.util.MessageBuilder
 import com.example.smsmanage.presentation.util.MessageValidator
+import com.example.smsmanage.presentation.util.NotificationManager
 import com.example.smsmanage.presentation.util.PermissionManager
 import com.example.smsmanage.presentation.viewmodel.MainViewModel
 import com.example.smsmanage.presentation.viewmodel.MainViewModelFactory
@@ -24,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 private const val REQUEST_SMS_PERMISSIONS_CODE = 1111
+private const val REQUEST_NOTIFICATION_PERMISSIONS_CODE = 2222
 private const val TAG = "MAIN_ACTIVITY_TAG"
 
 @AndroidEntryPoint
@@ -40,6 +42,8 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var permissionManager: PermissionManager
     @Inject
+    lateinit var notificationManager: NotificationManager
+//    @Inject
     lateinit var mySmsReceiver: MySmsReceiver
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +51,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         requestAllPermission()
+        mySmsReceiver = MySmsReceiver()
         registerMyReceiver()
+
 
         binding.apply {
             btnSend.setOnClickListener {
@@ -62,6 +68,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        mySmsReceiver.onSmsReceivedListener {
+            if (!permissionManager.checkNotificationPermission()) {
+                permissionManager.requestNotificationPermission(REQUEST_NOTIFICATION_PERMISSIONS_CODE)
+            }
+            else
+                notificationManager.notifyMessage(it)
+        }
+
 
 
     }
