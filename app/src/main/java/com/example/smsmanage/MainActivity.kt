@@ -3,6 +3,7 @@ package com.example.smsmanage
 import android.Manifest
 import android.app.PendingIntent
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -12,8 +13,11 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
+import com.example.smsmanage.data.receiver.MySmsReceiver
 import com.example.smsmanage.databinding.ActivityMainBinding
 import com.example.smsmanage.presentation.util.MessageBuilder
+import com.example.smsmanage.presentation.util.MessageValidator
+import com.example.smsmanage.presentation.util.PermissionManager
 import com.example.smsmanage.presentation.viewmodel.MainViewModel
 import com.example.smsmanage.presentation.viewmodel.MainViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,28 +35,42 @@ class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModels { mainViewModelFactory }
     @Inject
     lateinit var messageBuilder: MessageBuilder
+    @Inject
+    lateinit var messageValidator: MessageValidator
+    @Inject
+    lateinit var permissionManager: PermissionManager
+    @Inject
+    lateinit var mySmsReceiver: MySmsReceiver
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         requestSmsPermission()
+        registerMyReceiver()
 
         binding.apply {
             btnSend.setOnClickListener {
-                if (!checkSmsPermission())
-                    requestSmsPermission()
-                else{
-                    if (!checkFields())
-                        return@setOnClickListener
-                    val phone = binding.etPhone.text.toString()
-                    val message = binding.etMessage.text.toString()
+                val phone = etPhone.text.toString()
+                val message = etMessage.text.toString()
+
+                if (!messageValidator.validate(phone, message)) return@setOnClickListener
+                if (!permissionManager.checkSmsPermission()) {
+                    permissionManager.requestSmsPermission(REQUEST_SMS_PERMISSIONS_CODE)
+                } else {
                     mainViewModel.sendMessage(phone, message)
                 }
             }
         }
 
 
+    }
+
+    private fun registerMyReceiver() {
+        registerReceiver(
+            mySmsReceiver,
+            IntentFilter("android.provider.Telephony.SMS_RECEIVED")
+        )
     }
 
     private fun checkFields(): Boolean {
