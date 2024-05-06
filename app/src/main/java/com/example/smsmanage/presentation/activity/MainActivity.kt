@@ -1,20 +1,15 @@
-package com.example.smsmanage
+package com.example.smsmanage.presentation.activity
 
-import android.Manifest
 import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.app.ActivityCompat
+import androidx.appcompat.app.AppCompatActivity
+import com.example.smsmanage.R
 import com.example.smsmanage.data.info.InfoHelper
 import com.example.smsmanage.data.receiver.MySmsReceiver
 import com.example.smsmanage.databinding.ActivityMainBinding
-import com.example.smsmanage.presentation.util.MessageBuilder
 import com.example.smsmanage.presentation.util.DataValidator
+import com.example.smsmanage.presentation.util.MessageBuilder
 import com.example.smsmanage.presentation.util.NotificationManager
 import com.example.smsmanage.presentation.util.PermissionManager
 import com.example.smsmanage.presentation.viewmodel.MainViewModel
@@ -22,9 +17,7 @@ import com.example.smsmanage.presentation.viewmodel.MainViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
 private const val TAG = "MAIN_ACTIVITY_TAG"
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

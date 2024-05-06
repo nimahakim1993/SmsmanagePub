@@ -8,7 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.example.smsmanage.MainActivity
+import com.example.smsmanage.presentation.activity.MainActivity
 import com.example.smsmanage.R
 
 private const val REQUEST_ALL_PERMISSIONS_CODE = 1234

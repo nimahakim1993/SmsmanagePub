@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import com.example.smsmanage.MainActivity
+import com.example.smsmanage.presentation.activity.MainActivity
 import com.example.smsmanage.R
 
 private const val CHANNEL_ID = "my_channel_id"
