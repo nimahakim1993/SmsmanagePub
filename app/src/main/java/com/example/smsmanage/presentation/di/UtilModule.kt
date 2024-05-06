@@ -1,8 +1,9 @@
 package com.example.smsmanage.presentation.di
 
 import android.content.Context
+import com.example.smsmanage.data.info.InfoHelper
 import com.example.smsmanage.presentation.util.MessageBuilder
-import com.example.smsmanage.presentation.util.MessageValidator
+import com.example.smsmanage.presentation.util.DataValidator
 import com.example.smsmanage.presentation.util.NotificationManager
 import com.example.smsmanage.presentation.util.PermissionManager
 import dagger.Module
@@ -23,8 +24,8 @@ class UtilModule {
     }
     @Singleton
     @Provides
-    fun provideMessageValidator(@ApplicationContext context: Context): MessageValidator {
-        return MessageValidator(context)
+    fun provideMessageValidator(@ApplicationContext context: Context): DataValidator {
+        return DataValidator(context)
     }
     @Singleton
     @Provides
@@ -35,5 +36,10 @@ class UtilModule {
     @Provides
     fun provideNotificationManager(@ApplicationContext context: Context): NotificationManager {
         return NotificationManager(context)
+    }
+    @Singleton
+    @Provides
+    fun provideInfoHelper(@ApplicationContext context: Context): InfoHelper {
+        return InfoHelper(context)
     }
 }

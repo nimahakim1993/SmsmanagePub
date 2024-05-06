@@ -1,5 +1,6 @@
 package com.example.smsmanage.presentation.di
 
+import com.example.smsmanage.data.info.InfoHelper
 import com.example.smsmanage.data.receiver.MySmsReceiver
 import dagger.Module
 import dagger.Provides
@@ -12,7 +13,7 @@ import javax.inject.Singleton
 class ServiceModule {
     @Singleton
     @Provides
-    fun provideMySmsReceiver(): MySmsReceiver {
-        return MySmsReceiver()
+    fun provideMySmsReceiver(infoHelper: InfoHelper): MySmsReceiver {
+        return MySmsReceiver(infoHelper)
     }
 }

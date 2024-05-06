@@ -7,4 +7,8 @@
     <string name="desc_notification_permission_denied">notification permission is not granted</string>
     <string name="channel_name">test message</string>
     <string name="channel_description">desc test message</string>
+    <string name="str_input_receive_number">to filter number received, enter number at input below:</string>
+    <string name="str_hint_receive">+98xxxxxxxxxx</string>
+    <string name="str_edit">edit</string>
+    <string name="str_submit">submit</string>
 </resources>
