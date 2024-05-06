@@ -87,7 +87,17 @@ class MainActivity : AppCompatActivity() {
                 messageBuilder.showToastMessage("to receive message please first input number")
             }
             else
-                notificationManager.notifyMessage(it)
+//                notificationManager.notifyMessage(it)
+
+            //use view model to message because if there were some fragments that need to this data viewModel is best practice
+                mainViewModel.setReceiveMessage(it)
+        }
+
+        mainViewModel.getReceiveMessage.observe(this){ message ->
+            if (message == null)
+                return@observe
+            notificationManager.notifyMessage(message)
+            mainViewModel.setReceiveMessage(null)
         }
 
 
@@ -110,6 +120,10 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(mySmsReceiver)
+    }
 
 
 
