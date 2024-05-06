@@ -5,9 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.telephony.SmsMessage
 import android.util.Log
+import com.example.smsmanage.data.info.InfoHelper
 
 const val TAG = "MY_SMS_RECEIVER"
-class MySmsReceiver: BroadcastReceiver() {
+class MySmsReceiver(private val infoHelper: InfoHelper): BroadcastReceiver() {
 
     private var onSmsReceived : ((String) -> Unit)?= null
 
@@ -17,11 +18,13 @@ class MySmsReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent) {
         val smsMap = getMessage(intent)
-        for (phone in smsMap.keys) {
-            val message = smsMap[phone]
-             Log.i(TAG, "phone: $phone msg: $message")
-            onSmsReceived?.let {
-                it(message!!)
+        val numberToReceive = infoHelper.getNumberReceive()
+        smsMap.forEach { (phone, message) ->
+            if (phone == numberToReceive) {
+                Log.i(TAG, "phone: $phone msg: $message")
+                onSmsReceived?.let {
+                    it(message!!)
+                }
             }
         }
     }
